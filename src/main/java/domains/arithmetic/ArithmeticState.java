@@ -26,7 +26,7 @@ public class ArithmeticState extends State {
     
     /**
      * 
-     * @return a sting that says "the value is: "answer"
+     * @return a sting that says "the value is: <answer>
      */
     @Override
     public String toString() {
@@ -42,5 +42,5 @@ public class ArithmeticState extends State {
     }
     
     
-    private final int StateValue;
+    private int StateValue;
 }
