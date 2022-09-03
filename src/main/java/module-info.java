@@ -1,4 +1,4 @@
-module problemsolver {
+module calculator {
     requires javafx.controls;
-    exports framework;
+    exports calculator;
 }

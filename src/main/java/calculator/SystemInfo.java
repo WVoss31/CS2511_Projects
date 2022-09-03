@@ -1,4 +1,4 @@
-package framework;
+package calculator;
 
 public class SystemInfo {
 
