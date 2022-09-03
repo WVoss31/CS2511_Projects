@@ -20,11 +20,6 @@ public class FarmerState extends State {
         this.cabbage = c;
     }
     
-    /**
-     *
-     * @param object
-     * @return
-     */
     @Override
     public boolean equals(Object object){
         if(object == null) return false;

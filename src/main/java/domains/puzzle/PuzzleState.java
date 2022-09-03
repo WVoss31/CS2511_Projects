@@ -91,14 +91,6 @@ public class PuzzleState extends State {
             Location other = (Location) o;
             return this.row == other.row && this.column == other.column;
         }
-
-        @Override
-        public int hashCode() {
-            int hash = 3;
-            hash = 89 * hash + this.row;
-            hash = 89 * hash + this.column;
-            return hash;
-        }
         
         private int row;
         private int column;
@@ -152,13 +144,6 @@ public class PuzzleState extends State {
         PuzzleState other = (PuzzleState) o;
         if (this == other) return true;
         return Arrays.deepEquals(this.tiles, other.tiles);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Arrays.deepHashCode(this.tiles);
-        return hash;
     }
     
     /**
