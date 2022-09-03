@@ -1,4 +1,4 @@
-module threads {
+module matrix {
     requires javafx.controls;
-    exports threads;
+    exports matrix;
 }
