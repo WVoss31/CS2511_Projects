@@ -1,4 +1,4 @@
-module calculator {
+module threads {
     requires javafx.controls;
-    exports calculator;
+    exports threads;
 }
