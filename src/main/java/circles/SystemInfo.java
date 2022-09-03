@@ -1,4 +1,4 @@
-package framework;
+package circles;
 
 public class SystemInfo {
 
