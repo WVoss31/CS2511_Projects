@@ -1,5 +1,4 @@
-module circles {
+module problemsolver {
     requires javafx.controls;
-    requires javafx.graphics;
-    exports circles;
+    exports framework;
 }
