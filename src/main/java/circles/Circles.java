@@ -4,15 +4,8 @@ import java.util.stream.Stream;
 import javafx.animation.Animation;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,100 +18,34 @@ import javafx.util.Duration;
  */
 public class Circles extends VBox {
     
-    //public static final int ROWS = 4;
-    //public static final int COLS = 5;
-    //public static final int CELL_SIZE = 100;
+    public static final int ROWS = 4;
+    public static final int COLS = 5;
+    public static final int CELL_SIZE = 100;
+    private int row = 0;
+    private int col = 0;
 
     public Circles() {
         setAlignment(Pos.CENTER);
         
         canvas = new Pane();
-        canvas.setPrefSize(5 * 150, 5 * 150);
+        canvas.setPrefSize(COLS * CELL_SIZE, ROWS * CELL_SIZE);
         
-        control = new HBox();
-        control.setAlignment(Pos.CENTER);
+        starter = new Button("Circles");
         
-        starter = new GridPane();
-        starter.setHgap(10);
-        starter.setPadding(new Insets(2));
-
-        //making rows spinner
-        Label RowLabel = new Label("Rows");
-        ROWS = new Spinner(1, 5, 3);
-        ROWS.setPrefWidth(60);
-        ROWS.valueProperty().addListener(e -> { canvas.getChildren().clear(); 
-        addAllRowsToCanvas(makeAllRows()); });
+        getChildren().addAll(canvas, starter);
         
-        //making column spinner
-        Label ColLabel = new Label("Columns");
-        COLS = new Spinner(1, 5, 3);
-        COLS.setPrefWidth(60);
-        COLS.valueProperty().addListener(e -> { canvas.getChildren().clear(); 
-           addAllRowsToCanvas(makeAllRows()); });
+        addButtonHandler();  
         
-        //making x_scale spinner
-        Label xScaleLabel = new Label("X Scale");
-        x_scale = new Spinner(-3, 3, 0);
-        x_scale.setPrefWidth(60);
-        x_scale.valueProperty().addListener(e -> { canvas.getChildren().clear(); 
-        addAllRowsToCanvas(makeAllRows()); });
-        
-        //making y_scale spinner
-        Label yScaleLabel = new Label("Y Scale");
-        y_scale = new Spinner(-3, 3, 0);
-        y_scale.setPrefWidth(60);
-        y_scale.valueProperty().addListener(e -> { canvas.getChildren().clear(); 
-        addAllRowsToCanvas(makeAllRows()); });
-        
-        //Making cell size slider
-        Label SliderLabel = new Label("Cell Size");
-        CELL_SIZE = new Slider(50, 150, 100);
-        CELL_SIZE.setPrefWidth(150);
-        Label SliderValue = new Label("" + (int)CELL_SIZE.getValue());
-        CELL_SIZE.valueProperty().addListener(e -> { canvas.getChildren().clear(); 
-           addAllRowsToCanvas(makeAllRows()); 
-            SliderValue.setText("" + (int)CELL_SIZE.getValue());});
-        
-        //adding rows and columns spinner
-        starter.add(RowLabel, 0, 0);
-        starter.add(ROWS, 0, 1);
-        starter.add(ColLabel, 1, 0);
-        starter.add(COLS, 1, 1);
-        
-        //adding slider and slider labels
-        starter.add(SliderLabel, 2, 0);
-        starter.add(CELL_SIZE, 2, 1);
-        starter.add(SliderValue, 3, 1);  //note: it is 2, 1 and 3, 1 because you want the slider and the label horizontal, not vertical
-        
-        //adding X and Y scales/labels
-        starter.add(xScaleLabel, 4, 0);
-        starter.add(x_scale, 4, 1);
-        starter.add(yScaleLabel, 5, 0);
-        starter.add(y_scale, 5, 1);
-        
-        //setting all LABELS to center alignment
-        GridPane.setHalignment(RowLabel, HPos.CENTER);
-        GridPane.setHalignment(ColLabel, HPos.CENTER);
-        GridPane.setHalignment(SliderLabel, HPos.CENTER);
-        GridPane.setHalignment(xScaleLabel, HPos.CENTER);
-        GridPane.setHalignment(yScaleLabel, HPos.CENTER);
-        
-        
-        getChildren().addAll(canvas, control);
-        control.getChildren().addAll(starter);
-        
-        canvas.getChildren().clear(); 
-        addAllRowsToCanvas(makeAllRows());
+        makeAllRows().forEach(r -> r.forEach(x -> System.out.println(x)));
     }
     
     private void addToCanvas(Circle newCircle) {
-        double fromX = (((int)(COLS.getValue())-1)*(int)CELL_SIZE.getValue()) + ((int)(CELL_SIZE.getValue())/2);
-        double fromY = (((int)(ROWS.getValue())-1)*(int)CELL_SIZE.getValue()) + ((int)(CELL_SIZE.getValue())/2);
-        double toX = (col * (int)(CELL_SIZE.getValue())) + ((int)(CELL_SIZE.getValue()) / 2);
-        double toY = (row * (int)(CELL_SIZE.getValue())) + ((int)(CELL_SIZE.getValue()) / 2);
+        double fromX = ((COLS-1)*CELL_SIZE) + (CELL_SIZE/2);
+        double fromY = ((ROWS-1)*CELL_SIZE) + (CELL_SIZE/2);
+        double toX = (col * CELL_SIZE) + (CELL_SIZE / 2);
+        double toY = (row * CELL_SIZE) + (CELL_SIZE / 2);
         newCircle.setCenterX(fromX);
         newCircle.setCenterY(fromY);
-        newCircle.setRadius((int)(CELL_SIZE.getValue()) / 4);
         newCircle.setFill(new Color(Math.random(), Math.random(), Math.random(), 1.0));
         
         canvas.getChildren().add(newCircle);
@@ -131,17 +58,25 @@ public class Circles extends VBox {
         
         ScaleTransition st = new ScaleTransition(Duration.millis((250 * Math.random() + 500)));
         st.setNode(newCircle);
-        st.setByX((int)x_scale.getValue());
-        st.setByY((int)y_scale.getValue());
+        st.setByX(1.0);
+        st.setByY(1.0);
         st.setCycleCount(Animation.INDEFINITE);
         st.setAutoReverse(true);
         st.play();
         
     }
     
+    /**
+     * This method adds the handler to the button that gives
+     * this application its behavior.
+     */
+    private void addButtonHandler() {
+        starter.setOnAction(e -> { canvas.getChildren().clear(); 
+           addAllRowsToCanvas(makeAllRows()); });
+    }
     
     private Stream<Circle> makeRow() {
-        return Stream.generate(() -> new Circle()).limit((int)(COLS.getValue()));
+        return Stream.generate(() -> new Circle(CELL_SIZE/4)).limit(COLS);
     }
     
     private void addRowToCanvas(Stream<Circle> stream) {
@@ -151,8 +86,7 @@ public class Circles extends VBox {
     }
     
     private Stream<Stream<Circle>> makeAllRows() {
-        canvas.getChildren().clear();
-        return Stream.generate(() -> makeRow()).limit((int)(ROWS.getValue()));
+        return Stream.generate(() -> makeRow()).limit(ROWS);
     }
     
     private void addAllRowsToCanvas(Stream<Stream<Circle>> grid) {
@@ -160,14 +94,6 @@ public class Circles extends VBox {
         grid.forEach(r -> {addRowToCanvas(r); row++;} );
     }
     
-    private final Slider CELL_SIZE;
-    private final Spinner x_scale;
-    private final Spinner y_scale;
-    private final Spinner ROWS;
-    private final Spinner COLS;
-    private final Pane canvas;
-    private final GridPane starter;
-    private final HBox control;
-    private int row;
-    private int col;
+    private Pane canvas;
+    private Button starter;
 }
