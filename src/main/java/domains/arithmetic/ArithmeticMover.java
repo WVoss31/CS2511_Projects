@@ -3,7 +3,6 @@ package domains.arithmetic;
 import framework.problem.Mover;
 import framework.problem.State;
 
-
 /**
  *
  * @author Walker Voss
